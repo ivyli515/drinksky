@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>{{name}}</h1>
+    <img src="{{image}}" alt="image of {{name}}" />
+    <div>
+      <ul>
+        {% for ingredient in ingredients %}
+        <li>{{ingredient}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div>
+      <p>{{instructions}}</p>
+    </div>
+    <div>
+      <form action="/add_drink_action" method="POST">
+        <input type="hidden" name="id" value="{{id}}" />
+        <input type="hidden" name="name" value="{{name}}" />
+        <input type="hidden" name="image" value="{{image}}" />
+        <label>Notes on Ingredient</label>
+        <input type="text" name="ingredient_notes" />
+        <label>Notes on Instruction</label>
+        <input type="text" name="instruction_notes" />
+        <label>Rating</label>
+        <input type="number" name="rating" />
+        <input type="submit" value="Add Notes" />
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+import requests
+
+def name_get(name):
+    response = requests.get(f'https://thecocktaildb.com/api/json/v1/1/search.php?s={name}')
+    resp = response.json()['drinks'][0]
+    return resp
+
+def ingredient_get(ingredient):
+    response = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingredient}')
+    resp = response.json()['drinks']
+    return resp
+
+def id_get(id):
+    response = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={id}')
+    resp = response.json()['drinks'][0]
+    id = resp['idDrink']
+    name = resp['strDrink']
+    image = resp['strDrinkThumb']
+    i = 1
+    ingredients = []
+    while resp[f'strIngredient{i}'] != None:
+        if resp[f'strMeasure{i}'] == None:
+            resp[f'strMeasure{i}'] = ''
+        ingredient = resp[f'strMeasure{i}'] + ' ' + resp[f'strIngredient{i}']
+        ingredients.append(ingredient)
+        i += 1
+    instructions = resp['strInstructions']
+    return id, name, image, ingredients, instructions
