@@ -17,5 +17,31 @@
       /></label>
       <input type="submit" />
     </form>
+    <div class="login_info">
+      {% if username == None %}
+      <a href="/signup"><button>Sign-up</button></a>
+      <a href="/login"><button>Log in</button></a>
+      {% else %}
+      <p>
+        Logged in as {{username}}, <a href="/my_recipes">My Cocktail Recipes</a>
+      </p>
+      <form action="/logout_action" method="POST" id="logout_form">
+        <input type="submit" value="Log out" />
+      </form>
+
+      {% endif %}
+    </div>
+    <div>
+      <ul>
+        {% for recipe in recipes %}
+        <li>
+          <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
+            href="/drinks/{{recipe[1]}}"
+            >{{recipe[0]}}</a
+          >
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>
