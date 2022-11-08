@@ -30,14 +30,7 @@ def create_new_user(parameters):
     sql_write('INSERT INTO users (email, name, password_hash) VALUES (%s, %s, %s)', parameters)
     return 
 
-def get_my_recipes():
-    results = sql_select_all("SELECT recipes.drink_name, recipes.drink_id, recipes.drink_url, recipes.rating FROM recipes INNER JOIN users ON recipes.user_id = users.id WHERE users.name = 'Ivy' ORDER BY recipes.rating DESC", [])
-    return results
-
-def get_popular_recipes():
-    results = sql_select_all("SELECT recipes.drink_name, recipes.drink_id, recipes.drink_url FROM recipes INNER JOIN users ON recipes.user_id = users.id GROUP BY recipes.drink_name, recipes.drink_id, recipes.drink_url ORDER BY COUNT(users.id) DESC",[])
-    return results
 
 def get_userid(parameter):
     results = sql_select_one('SELECT id FROM users WHERE name = %s', [parameter])
-    return results
+    return results[0]

@@ -1,0 +1,1 @@
+This is a simple app that let you search for cocktail recipes without having to navigate through someone's life story. You ask for recipes and you get recipes plain and simple. The app also let you save your favourite recipes with your notes for making it again.

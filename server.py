@@ -1,8 +1,9 @@
 from flask import Flask, request, redirect, render_template
-import requests
+# import requests
 import random
 from models.api_connection import name_get, ingredient_get, id_get
-from models.user import get_user, is_authenticated, generate_password_hash, password_valid, already_signup, create_new_user, get_my_recipes, get_popular_recipes, get_userid
+from models.user import get_user, is_authenticated, generate_password_hash, password_valid, already_signup, create_new_user, get_userid
+from models.recipes import get_my_recipes, get_popular_recipes, insert_recipe
 
 app = Flask(__name__)
 
@@ -34,7 +35,7 @@ def search_by_ingredient():
     return render_template('drink_by_ingredient.html', drinks = randomlist, ingredient = ingredient)
 
 
-@app.route('/drinks/<drink_id>')
+@app.route('/drinks/<drink_id>', methods = ['GET'])
 def ingredient_detail(drink_id):
     # 1. fetch the recipe
     # 2. populate the 'notes' for this user
@@ -44,9 +45,18 @@ def ingredient_detail(drink_id):
     id, name, image, ingredients, instructions = id_get(drink_id)
     return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, userid = userid)
 
-# @app.route('/add_drink_action')
-# def add_drink_action():
-#     pass
+@app.route('/add_recipe_action', methods = ['POST'])
+def add_recipe_action():
+    user_id = request.form.get('user_id')
+    drink_id = request.form.get('id')
+    drink_name = request.form.get('name')
+    drink_url = request.form.get('image')
+    drink_url = drink_url + '/preview'
+    notes = request.form.get('notes')
+    rating = request.form.get('rating')
+
+    insert_recipe([notes, rating, drink_name, drink_id, drink_url, user_id])
+    return redirect('/my_recipes')
 
 
 @app.route('/my_recipes')
@@ -99,9 +109,11 @@ def signup_action():
         create_new_user([email, name, password_hass])
         return redirect('/')
 
-# @app.route('/delete_drink')
-# def delete_drink():
-#     pass
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+    return render_template('delete_recipe.html')
+    
+    
 
 # @app.route('/delete_drink_action')
 # def delete_drink():
