@@ -31,6 +31,7 @@
 
       {% endif %}
     </div>
+
     <div>
       <ul>
         {% for recipe in recipes %}
@@ -38,10 +39,21 @@
           <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
             href="/drinks/{{recipe[1]}}"
             >{{recipe[0]}}</a
-          >
+          >{% if username != None %} {% if
+          recipe[0] in my_recipes %}
+          You and {{recipe[3]-1}} people made this 
+          <a href="/edit_recipe/{{recipe[1]}}"><button>Edit</button></a>
+          <a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a>
+          {% else %}
+          Try this! {{recipe[3]}} people made this. 
+          {% endif %} 
+          {% else %}
+          {{recipe[3]}} people made this 
+
+          {% endif %}
         </li>
         {% endfor %}
       </ul>
-    </div>
+
   </body>
 </html>

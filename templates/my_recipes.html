@@ -7,6 +7,7 @@
     <title>Document</title>
   </head>
   <body>
+    <h1>My Recipes</h1>
     <div>
       <ul>
         {% for recipe in recipes %}
@@ -14,7 +15,8 @@
           <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
             href="/drinks/{{recipe[1]}}"
             >{{recipe[0]}}</a
-          ><a href="/edit_recipe">Edit</a><a href="/delete_recipe">Delete</a>
+          ><a href="/edit_recipe/{{recipe[1]}}">Edit</a
+          ><a href="/delete_recipe/{{recipe[1]}}">Delete</a>
         </li>
         {% endfor %}
       </ul>

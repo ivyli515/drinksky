@@ -20,20 +20,14 @@
       <p>{{instructions}}</p>
     </div>
     <div>
-      <form action="/add_recipe_action" method="POST">
-        <input type="hidden" name="id" value="{{id}}" />
-        <input type="hidden" name="name" value="{{name}}" />
-        <input type="hidden" name="image" value="{{image}}" />
-        <input type="hidden" name="user_id" value="{{userid}}" />
-        {% if username != None %}
+      <form action="/edit_recipe_action" method="POST">
+        <input type="hidden" name="id" value="{{resp[0]}}" />
         <label>Notes</label>
-        <input type="text" name="notes" />
+        <input type="text" name="notes" value="{{resp[1]}}" />
 
         <label>Rating</label>
-
-        <input type="number" name="rating" />
-        <input type="submit" value="Add Notes" />
-        {% endif %}
+        <input type="number" name="rating" value="{{resp[2]}}" />
+        <input type="submit" value="Update My Notes" />
       </form>
     </div>
   </body>

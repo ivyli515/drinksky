@@ -7,6 +7,11 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Are you sure you want to delete</h1>
+    <h1>Are you sure you want to delete {{resp[3]}}</h1>
+    <form action="/delete_recipe_action" method="POST">
+      <input type="hidden" name="id" value="{{resp[0]}}" />
+      <input type="submit" name="" value="Yes" />
+    </form>
+    <a href="/my_recipes"><button>Cancel</button></a>
   </body>
 </html>

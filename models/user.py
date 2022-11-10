@@ -32,5 +32,5 @@ def create_new_user(parameters):
 
 
 def get_userid(parameter):
-    results = sql_select_one('SELECT id FROM users WHERE name = %s', [parameter])
+    results = sql_select_one('SELECT id FROM users WHERE name = %s', parameter)
     return results[0]

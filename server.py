@@ -1,16 +1,20 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, url_for
 # import requests
 import random
 from models.api_connection import name_get, ingredient_get, id_get
 from models.user import get_user, is_authenticated, generate_password_hash, password_valid, already_signup, create_new_user, get_userid
-from models.recipes import get_my_recipes, get_popular_recipes, insert_recipe
+from models.recipes import get_my_recipes, get_popular_recipes, insert_recipe, delete_recipe_data, get_recipe, update_recipe_data
 
 app = Flask(__name__)
 
 @app.route('/', methods = ['GET'])
 def favourite_drinks():
-    name = request.cookies.get('name')
     resp = get_popular_recipes()
+    name = request.cookies.get('name')
+    if name != None:
+        my_recipes = get_my_recipes([name])
+        my_recipes_name = [my_recipe[0] for my_recipe in my_recipes]
+        return render_template('index.html', recipes = resp, username = name, my_recipes = my_recipes_name)
     return render_template('index.html', recipes = resp, username = name)
 
 @app.route('/search_name', methods=['POST'])
@@ -41,9 +45,15 @@ def ingredient_detail(drink_id):
     # 2. populate the 'notes' for this user
     #    if they exist.
     username = request.cookies.get('name')
-    userid = get_userid(username)
     id, name, image, ingredients, instructions = id_get(drink_id)
-    return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, userid = userid)
+    if username != None: 
+        userid = get_userid([username])
+        resp = get_recipe([drink_id, userid])
+        if resp != None: 
+            return redirect(f'/edit_recipe/{drink_id}')
+        else: 
+            return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, username = username)
+    return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, username = username)
 
 @app.route('/add_recipe_action', methods = ['POST'])
 def add_recipe_action():
@@ -62,7 +72,7 @@ def add_recipe_action():
 @app.route('/my_recipes')
 def my_notes():
     my_name = request.cookies.get('name')
-    resp = get_my_recipes()
+    resp = get_my_recipes([my_name])
     return render_template('my_recipes.html', recipes = resp)
 
 @app.route('/login', methods = ['GET'])
@@ -111,17 +121,38 @@ def signup_action():
 
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
-    return render_template('delete_recipe.html')
+    username = request.cookies.get('name')
+    userid = get_userid([username])
+    resp = get_recipe([recipe_id, userid])
+    return render_template('delete_recipe.html', resp = resp)
     
-    
+@app.route('/delete_recipe_action', methods = ['POST'])
+def delete_recipe_action():
+    id = request.form.get('id')
+    delete_recipe_data([id])
+    return redirect('/my_recipes')
 
-# @app.route('/delete_drink_action')
-# def delete_drink():
-#     pass
 
-# @app.route('/edit_drink')
-# def edit_drink():
-#     pass
+@app.route('/edit_recipe/<recipe_id>', methods=['GET'])
+# 1. fetch the recipe
+# 2. populate the 'notes' for this user
+#    if they exist.
+def edit_recipe(recipe_id):
+    username = request.cookies.get('name')
+    userid = get_userid([username])
+
+    resp = get_recipe([recipe_id, userid])
+    id, name, image, ingredients, instructions = id_get(recipe_id)
+
+    return render_template('edit_recipe.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, resp = resp)
+
+@app.route('/edit_recipe_action', methods = ['POST'])
+def update_recipe():
+    id = request.form.get('id')
+    notes = request.form.get('notes')
+    rating = request.form.get('rating')
+    update_recipe_data([notes, rating, id])
+    return redirect('/my_recipes')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5005)
