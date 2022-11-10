@@ -1,21 +1,28 @@
-from flask import Flask, request, redirect, render_template, url_for
+import flask
+from flask import Flask, request, redirect, render_template, flash
 # import requests
 import random
-from models.api_connection import name_get, ingredient_get, id_get
+from models.api_connection import name_get, ingredient_get, id_get, random_recipe
 from models.user import get_user, is_authenticated, generate_password_hash, password_valid, already_signup, create_new_user, get_userid
 from models.recipes import get_my_recipes, get_popular_recipes, insert_recipe, delete_recipe_data, get_recipe, update_recipe_data
 
 app = Flask(__name__)
+app.secret_key = b'top_secret'
+
+def render_template(template_name, **context):
+    username = context.pop("username", None)
+    username = username or request.cookies.get('name')
+    return flask.render_template(template_name, username=username, **context)
 
 @app.route('/', methods = ['GET'])
 def favourite_drinks():
     resp = get_popular_recipes()
-    name = request.cookies.get('name')
-    if name != None:
-        my_recipes = get_my_recipes([name])
+    username = request.cookies.get('name')
+    if username != None:
+        my_recipes = get_my_recipes([username])
         my_recipes_name = [my_recipe[0] for my_recipe in my_recipes]
-        return render_template('index.html', recipes = resp, username = name, my_recipes = my_recipes_name)
-    return render_template('index.html', recipes = resp, username = name)
+        return render_template('index.html', recipes = resp, my_recipes = my_recipes_name)
+    return render_template('index.html', recipes = resp)
 
 @app.route('/search_name', methods=['POST'])
 def search_by_name():
@@ -38,6 +45,11 @@ def search_by_ingredient():
 
     return render_template('drink_by_ingredient.html', drinks = randomlist, ingredient = ingredient)
 
+@app.route('/search_random', methods = ['POST'])
+def random_search():
+    resp = random_recipe()
+    id = resp['idDrink']
+    return redirect(f'/drinks/{id}')
 
 @app.route('/drinks/<drink_id>', methods = ['GET'])
 def ingredient_detail(drink_id):
@@ -52,8 +64,8 @@ def ingredient_detail(drink_id):
         if resp != None: 
             return redirect(f'/edit_recipe/{drink_id}')
         else: 
-            return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, username = username)
-    return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, username = username)
+            return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image)
+    return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image)
 
 @app.route('/add_recipe_action', methods = ['POST'])
 def add_recipe_action():
@@ -155,4 +167,4 @@ def update_recipe():
     return redirect('/my_recipes')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5005)
+    app.run()

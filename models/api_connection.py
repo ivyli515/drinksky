@@ -10,6 +10,11 @@ def ingredient_get(ingredient):
     resp = response.json()['drinks']
     return resp
 
+def random_recipe():
+    response = requests.get('http://www.thecocktaildb.com/api/json/v1/1/random.php')
+    resp = response.json()['drinks'][0]
+    return resp
+
 def id_get(id):
     response = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={id}')
     resp = response.json()['drinks'][0]

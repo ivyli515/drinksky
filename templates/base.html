@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="content">
+      {% block content %}
+      <p><a href="/">Home</a></p>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="flashes">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+      <div class="login_info">
+        {% if username == None %}
+        <a href="/signup"><button>Sign-up</button></a>
+        <a href="/login"><button>Log in</button></a>
+        {% else %}
+        <p>
+          Logged in as {{username}},
+          <a href="/my_recipes">My Cocktail Recipes</a>
+        </p>
+        <form action="/logout_action" method="POST" id="logout_form">
+          <input type="submit" value="Log out" />
+        </form>
+
+        {% endif %}
+      </div>
+      {% endblock %}
+    </div>
+    <div id="footer">
+      {% block footer %} &copy; Copyright 2022 by Ivy {% endblock %}
+    </div>
+  </body>
+</html>

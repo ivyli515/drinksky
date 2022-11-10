@@ -1,59 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form action="/search_name" , method="POST">
-      <label>Cocktail: <input type="text" name="drink" /></label>
-      <input type="submit" />
-    </form>
-    <form action="/search_ingredient" , method="POST">
-      <label for=""
-        >Main ingredient: <input type="text" name="ingredient"
-      /></label>
-      <input type="submit" />
-    </form>
-    <div class="login_info">
-      {% if username == None %}
-      <a href="/signup"><button>Sign-up</button></a>
-      <a href="/login"><button>Log in</button></a>
-      {% else %}
-      <p>
-        Logged in as {{username}}, <a href="/my_recipes">My Cocktail Recipes</a>
-      </p>
-      <form action="/logout_action" method="POST" id="logout_form">
-        <input type="submit" value="Log out" />
-      </form>
+{% extends "base.html" %} {% block content %}
+<h1>Drinksky</h1>
+{{super()}}
+<form action="/search_name" , method="POST">
+  <label>Cocktail: <input type="text" name="drink" /></label>
+  <input type="submit" />
+</form>
+<form action="/search_ingredient" , method="POST">
+  <label for="">Main ingredient: <input type="text" name="ingredient" /></label>
+  <input type="submit" />
+</form>
+<form action="/search_random" , method="POST">
+  <input type="submit" name="" value="Surprise Me" />
+</form>
 
-      {% endif %}
-    </div>
-
-    <div>
-      <ul>
-        {% for recipe in recipes %}
-        <li>
-          <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
-            href="/drinks/{{recipe[1]}}"
-            >{{recipe[0]}}</a
-          >{% if username != None %} {% if
-          recipe[0] in my_recipes %}
-          You and {{recipe[3]-1}} people made this 
-          <a href="/edit_recipe/{{recipe[1]}}"><button>Edit</button></a>
-          <a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a>
-          {% else %}
-          Try this! {{recipe[3]}} people made this. 
-          {% endif %} 
-          {% else %}
-          {{recipe[3]}} people made this 
-
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-
-  </body>
-</html>
+<div>
+  <ul>
+    {% for recipe in recipes %}
+    <li>
+      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
+        href="/drinks/{{recipe[1]}}"
+        >{{recipe[0]}}</a
+      >{% if username != None %} {% if recipe[0] in my_recipes %} You and
+      {{recipe[3]-1}} people made this
+      <a href="/edit_recipe/{{recipe[1]}}"><button>Edit</button></a>
+      <a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a>
+      {% else %} Try this! {{recipe[3]}} people made this. {% endif %} {% else
+      %} {{recipe[3]}} people made this {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
