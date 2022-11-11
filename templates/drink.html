@@ -1,32 +1,38 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {{super()}}
 <h1>{{name}}</h1>
-{{super()}}
-<img src="{{image}}" alt="image of {{name}}" />
-<div>
-  <ul>
-    {% for ingredient in ingredients %}
-    <li>{{ingredient}}</li>
-    {% endfor %}
-  </ul>
-</div>
-<div>
-  <p>{{instructions}}</p>
-</div>
-<div>
-  <form action="/add_recipe_action" method="POST">
-    <input type="hidden" name="id" value="{{id}}" />
-    <input type="hidden" name="name" value="{{name}}" />
-    <input type="hidden" name="image" value="{{image}}" />
-    <input type="hidden" name="user_id" value="{{userid}}" />
-    {% if username != None %}
-    <label>Notes</label>
-    <input type="text" name="notes" />
+<div class="recipe-notes-container">
+  <div class="left">
+    <img src="{{image}}" alt="image of {{name}}" />
+    <div class="ingredient-instruction-container">
+      <div class="ingredient">
+        <h3>Ingredients</h3>
+        <ul>
+          {% for ingredient in ingredients %}
+          <li>{{ingredient}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3>Instructions</h3>
+        <p>{{instructions}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <form action="/add_recipe_action" method="POST">
+      <input type="hidden" name="id" value="{{id}}" />
+      <input type="hidden" name="name" value="{{name}}" />
+      <input type="hidden" name="image" value="{{image}}" />
+      <input type="hidden" name="user_id" value="{{userid}}" />
+      {% if username != None %}
+      <p><label>Rating</label></p>
+      <p>{% include "rating.html" %}</p>
+      <p><label>Notes</label></p>
+      <textarea name="notes" id="notes"></textarea>
 
-    <label>Rating</label>
-
-    <input type="number" name="rating" />
-    <input type="submit" value="Add Notes" />
-    {% endif %}
-  </form>
+      <input type="submit" value="Add Notes" />
+      {% endif %}
+    </form>
+  </div>
 </div>
 {% endblock %}

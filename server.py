@@ -31,13 +31,26 @@ def search_by_name():
     # resp = response.json()['drinks'][0]
     # id = resp.idDrink
     resp = name_get(drink)
-    id = resp['idDrink']
-    return redirect(f'/drinks/{id}')
+    print (resp)
+    if resp == None:
+        flash('No drinks can be found. Please enter another coctail.')
+        return redirect('/')
+    else: 
+        resp = resp[0]
+        id = resp['idDrink']
+        return redirect(f'/drinks/{id}')
 
 @app.route('/search_ingredient', methods=['POST'])
 def search_by_ingredient():
     ingredient = request.form.get('ingredient')
     resp = ingredient_get(ingredient)
+    print(resp)
+    if resp is None:
+        flash('No drink containing such ingredient can be found. Please enter another ingredient.')
+        return redirect('/')
+
+    resp.json()
+    resp = resp.json()['drinks']
     randomlist = []
     for i in range(0,6):
         n = random.randint(1, len(resp))
@@ -64,7 +77,7 @@ def ingredient_detail(drink_id):
         if resp != None: 
             return redirect(f'/edit_recipe/{drink_id}')
         else: 
-            return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image)
+            return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image, userid = userid)
     return render_template('drink.html', ingredients = ingredients, instructions = instructions, id = id, name = name, image = image)
 
 @app.route('/add_recipe_action', methods = ['POST'])
@@ -76,6 +89,7 @@ def add_recipe_action():
     drink_url = drink_url + '/preview'
     notes = request.form.get('notes')
     rating = request.form.get('rating')
+    print (drink_id, drink_name, drink_url, notes, rating, user_id)
 
     insert_recipe([notes, rating, drink_name, drink_id, drink_url, user_id])
     return redirect('/my_recipes')
@@ -167,4 +181,4 @@ def update_recipe():
     return redirect('/my_recipes')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, port=5005)

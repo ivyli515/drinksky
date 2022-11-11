@@ -1,11 +1,14 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {{super()}}
 <h1>Some of the Drinks made with {{ingredient}}</h1>
-{{super()}}
 <div>
-  <ul>
+  <ul class="recipes">
     {% for drink in drinks %}
     <li>
-      <a href="/drinks/{{drink['idDrink']}}">{{drink['strDrink']}}</a>
+      <img
+        src="{{drink['strDrinkThumb']}}/preview"
+        alt="image of {{drink['strDrink']}}"
+      />
+      <p><a href="/drinks/{{drink['idDrink']}}">{{drink['strDrink']}}</a></p>
     </li>
     {% endfor %}
   </ul>

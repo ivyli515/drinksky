@@ -4,35 +4,58 @@
     {% block head %}
     <link rel="stylesheet" href="/static/style.css" />
     <title>{% block title %}{% endblock %} - My Webpage</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap"
+      rel="stylesheet"
+    />
     {% endblock %}
   </head>
   <body>
     <div id="content">
       {% block content %}
-      <p><a href="/">Home</a></p>
+      <div class="nav-bar">
+        <div class="home-container">
+          <a href="/" id="home-link"
+            ><span class="material-symbols-outlined"> home </span></a
+          >
+        </div>
+        <div class="login-info">
+          {% if username == None %}
+          <a href="/signup"><button>Sign-up</button></a>
+          <a href="/login"><button>Log in</button></a>
+          {% else %}
+          <p>Logged in as {{username}}</p>
+          <p>
+            <a href="/my_recipes" id="recipe-link"
+              ><button>My Cocktail Recipes</button></a
+            >
+          </p>
+          <form action="/logout_action" method="POST" id="logout_form">
+            <input type="submit" value="Log out" />
+          </form>
+
+          {% endif %}
+        </div>
+      </div>
       {% with messages = get_flashed_messages() %} {% if messages %}
       <div class="flashes">
         {% for message in messages %}
         <p>{{ message }}</p>
         {% endfor %}
       </div>
-      {% endif %} {% endwith %}
-      <div class="login_info">
-        {% if username == None %}
-        <a href="/signup"><button>Sign-up</button></a>
-        <a href="/login"><button>Log in</button></a>
-        {% else %}
-        <p>
-          Logged in as {{username}},
-          <a href="/my_recipes">My Cocktail Recipes</a>
-        </p>
-        <form action="/logout_action" method="POST" id="logout_form">
-          <input type="submit" value="Log out" />
-        </form>
-
-        {% endif %}
-      </div>
-      {% endblock %}
+      {% endif %} {% endwith %} {% endblock %}
     </div>
     <div id="footer">
       {% block footer %} &copy; Copyright 2022 by Ivy {% endblock %}

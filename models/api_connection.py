@@ -1,13 +1,16 @@
 import requests
 
 def name_get(name):
-    response = requests.get(f'https://thecocktaildb.com/api/json/v1/1/search.php?s={name}')
-    resp = response.json()['drinks'][0]
+    resp = requests.get(f'https://thecocktaildb.com/api/json/v1/1/search.php?s={name}')
+    resp = resp.json()['drinks']
     return resp
 
 def ingredient_get(ingredient):
-    response = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingredient}')
-    resp = response.json()['drinks']
+    resp = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={ingredient}')
+    # Sometimes the response for a not found ingredient is just an empty string
+    # and that causes calls to .json() to encoutner encoding issues.
+    if resp.text == '':
+        return None
     return resp
 
 def random_recipe():

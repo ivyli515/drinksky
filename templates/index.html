@@ -1,31 +1,40 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {{super()}}
 <h1>Drinksky</h1>
-{{super()}}
-<form action="/search_name" , method="POST">
-  <label>Cocktail: <input type="text" name="drink" /></label>
-  <input type="submit" />
-</form>
-<form action="/search_ingredient" , method="POST">
-  <label for="">Main ingredient: <input type="text" name="ingredient" /></label>
-  <input type="submit" />
-</form>
-<form action="/search_random" , method="POST">
-  <input type="submit" name="" value="Surprise Me" />
-</form>
-
+<div class="search-container">
+  <form action="/search_name" , method="POST">
+    <label>Cocktail <input type="text" name="drink" id="name-text" /></label>
+    <input type="submit" value="Search" />
+  </form>
+  <form action="/search_ingredient" , method="POST">
+    <label for=""
+      >Main ingredient
+      <input type="text" name="ingredient" id="ingredient-text"
+    /></label>
+    <input type="submit" value="Search" />
+  </form>
+  <form action="/search_random" , method="POST">
+    <input type="submit" name="" value="Surprise Me" />
+  </form>
+</div>
 <div>
-  <ul>
+  <ul class="recipes">
     {% for recipe in recipes %}
     <li>
-      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
-        href="/drinks/{{recipe[1]}}"
-        >{{recipe[0]}}</a
-      >{% if username != None %} {% if recipe[0] in my_recipes %} You and
-      {{recipe[3]-1}} people made this
-      <a href="/edit_recipe/{{recipe[1]}}"><button>Edit</button></a>
-      <a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a>
-      {% else %} Try this! {{recipe[3]}} people made this. {% endif %} {% else
-      %} {{recipe[3]}} people made this {% endif %}
+      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" />
+      {% if username != None %} {% if recipe[0] in my_recipes %}
+      <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a><a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a></p>
+      <p>
+         You and
+        {{recipe[3]-1}} people made this
+
+        
+        {% else %} 
+        <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a></p>
+        <p>Try this! {{recipe[3]}} people made this. </p>{% endif %} 
+        {% else%} 
+        <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a></p>
+        <p>{{recipe[3]}} people made this </p>{% endif %}
+      </p>
     </li>
     {% endfor %}
   </ul>

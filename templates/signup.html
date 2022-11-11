@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="nav-bar"></div>
     <h1>Sign-up</h1>
+    <div class="signup">
     <form action="/signup_action" method="POST">
-      <label>Name<input type="text" name="name" /></label>
-      <label>Email<input type="text" name="email" /></label>
-      <label>Password<input type="password" name="password" /></label>
+      <p><label>Name <input type="text" name="name" /></label></p>
+      <p><label>Email <input type="text" name="email" /></label></p>
+      <p><label>Password <input type="password" name="password" /></label></p>
       <input type="submit" />
     </form>
+</div>
   </body>
 </html>
 {% endblock %}

@@ -1,6 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {{super()}}
 <h1>Are you sure you want to delete {{resp[3]}}</h1>
-{{super()}}
 <form action="/delete_recipe_action" method="POST">
   <input type="hidden" name="id" value="{{resp[0]}}" />
   <input type="submit" name="" value="Yes" />

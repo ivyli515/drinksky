@@ -1,14 +1,21 @@
-{% extends "base.html" %} {% block content %}
-<h1>My Recipes</h1>
-{{super()}}
+{% extends "base.html" %} {% block content %} {{super()}}
+<h1>{{username}}'s Favourite Cocktails</h1>
 <div>
-  <ul>
+  <ul class="recipes">
     {% for recipe in recipes %}
     <li>
-      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /><a
-        href="/edit_recipe/{{recipe[1]}}"
-        >{{recipe[0]}}</a
-      ><button><a href="/delete_recipe/{{recipe[1]}}">Delete</a></button>
+      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" />
+      <p>
+        <label id="rating-display">
+          {% for i in range(0, recipe[3]) %}
+          <span class="icon material-symbols-outlined">local_bar</span>{% endfor
+          %}
+        </label>
+      </p>
+      <p>
+        <a href="/edit_recipe/{{recipe[1]}}">{{recipe[0]}}</a
+        ><button><a href="/delete_recipe/{{recipe[1]}}">Delete</a></button>
+      </p>
     </li>
     {% endfor %}
   </ul>

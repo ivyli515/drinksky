@@ -5,7 +5,7 @@ def get_my_recipes(parameter):
     return results
 
 def get_popular_recipes():
-    results = sql_select_all("SELECT recipes.drink_name, recipes.drink_id, recipes.drink_url, COUNT(users.id) FROM recipes INNER JOIN users ON recipes.user_id = users.id GROUP BY recipes.drink_name, recipes.drink_id, recipes.drink_url ORDER BY COUNT(users.id) DESC",[])
+    results = sql_select_all("SELECT recipes.drink_name, recipes.drink_id, recipes.drink_url, COUNT(users.id) FROM recipes INNER JOIN users ON recipes.user_id = users.id GROUP BY recipes.drink_name, recipes.drink_id, recipes.drink_url ORDER BY COUNT(users.id) DESC LIMIT 6",[])
     return results
 
 def insert_recipe(parameters):

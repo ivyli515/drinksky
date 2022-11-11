@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="nav-bar"></div>
     <h1>Please Log In</h1>
+    <div class="login">
     <form action="/login_action" method="POST">
-      <label>Email<input type="text" name="email" /></label>
-      <label>Password<input type="password" name="password" /></label>
+      <p><label>Email <input type="text" name="email" /></label></p>
+      <p><label>Password <input type="password" name="password" /></label></p>
       <input type="submit" />
     </form>
+</div>
   </body>
 </html>
 {% endblock %}

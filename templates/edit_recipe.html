@@ -1,26 +1,48 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}{% block content %} {{super()}}
 <h1>{{name}}</h1>
-{{super()}}
-<img src="{{image}}" alt="image of {{name}}" />
-<div>
-  <ul>
-    {% for ingredient in ingredients %}
-    <li>{{ingredient}}</li>
-    {% endfor %}
-  </ul>
-</div>
-<div>
-  <p>{{instructions}}</p>
-</div>
-<div>
-  <form action="/edit_recipe_action" method="POST">
-    <input type="hidden" name="id" value="{{resp[0]}}" />
-    <label>Notes</label>
-    <input type="text" name="notes" value="{{resp[1]}}" />
-
-    <label>Rating</label>
-    <input type="number" name="rating" value="{{resp[2]}}" />
-    <input type="submit" value="Update My Notes" />
-  </form>
+<div class="recipe-notes-container">
+  <div class="left">
+    <img src="{{image}}" alt="image of {{name}}" />
+    <div class="ingredient-instruction-container">
+      <div class="ingredient">
+        <h3>Ingredients</h3>
+        <ul>
+          {% for ingredient in ingredients %}
+          <li>{{ingredient}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3>Instructions</h3>
+        <p>{{instructions}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <form action="/edit_recipe_action" method="POST">
+      <input type="hidden" name="id" value="{{resp[0]}}" />
+      <p>
+        <label id="rating-display">
+          {% for i in range(0, resp[2]) %}
+          <span class="icon material-symbols-outlined">local_bar</span>{% endfor
+          %}
+        </label>
+      </p>
+      <p>
+        <label>Rating</label>
+        <input
+          type="number"
+          name="rating"
+          value="{{resp[2]}}"
+          id="rating-number"
+        />
+      </p>
+      <p>
+        <label>Notes</label>
+      </p>
+      <textarea name="notes" id="notes">{{resp[1]}}</textarea>
+      <input type="submit" value="Update My Notes" />
+    </form>
+  </div>
 </div>
 {% endblock %}
