@@ -24,7 +24,9 @@
       <input type="hidden" name="name" value="{{name}}" />
       <input type="hidden" name="image" value="{{image}}" />
       <input type="hidden" name="user_id" value="{{userid}}" />
-      {% if username != None %}
+      {% if username == None %}
+      <p><a href="/login">Log in to save your favourite recipes</a></p>
+      {% else %}
       <p><label>Rating</label></p>
       <p>{% include "rating.html" %}</p>
       <p><label>Notes</label></p>

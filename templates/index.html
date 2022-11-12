@@ -25,15 +25,15 @@
       <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a><a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a></p>
       <p>
          You and
-        {{recipe[3]-1}} people made this
+        {{recipe[3]-1}} people have made this
 
         
         {% else %} 
         <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a></p>
-        <p>Try this! {{recipe[3]}} people made this. </p>{% endif %} 
+        <p>Try this! {{recipe[3]}} people have made this. </p>{% endif %} 
         {% else%} 
         <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a></p>
-        <p>{{recipe[3]}} people made this </p>{% endif %}
+        <p>{{recipe[3]}} people have made this </p>{% endif %}
       </p>
     </li>
     {% endfor %}

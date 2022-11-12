@@ -106,7 +106,7 @@ body {
     justify-content: space-between;
     background: #8e0302;
     align-items: center;
-    height: 130px;
+    height: 140px;
 }
 
 ul.recipes {
@@ -266,7 +266,9 @@ button, input[type="submit"] {
 .search-container label {
     color:#e2d2b5;
 }
-
+.search-container input[type="text"] {
+    color:#e2d2b5;
+}
 
 #name-text, #ingredient-text {
     background:#024b57;
@@ -297,4 +299,7 @@ input:focus {
 }
 .signup label, .login label {
     color: #e2d2b5;
+}
+.recipes button {
+    margin-left: 10px;
 }
