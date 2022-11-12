@@ -125,8 +125,8 @@ ul.recipes {
     margin: 1rem;
     padding-top: 7px;
 }
-li:hover {
-    transform: scale(1.1);
+.recipes li:hover {
+    transform: scale(1.05);
     transition: 0.2s;
 }
 h1 {
@@ -148,12 +148,13 @@ h1 {
 a {
     text-decoration: none;
 }
-a:link {
+ a:link {
     color: #8e0302;
-}
+} 
 a:visited {
     color: #8e0302;
 }
+
 #home-link, #recipe-link {
     color:#e2d2b5;
 }
@@ -307,6 +308,7 @@ input:focus {
 }
 .recipes button {
     margin-left: 10px;
+    
 }
 .right input[type="submit"] {
     border: 2px solid #8e0302;
