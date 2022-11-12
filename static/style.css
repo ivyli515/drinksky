@@ -303,3 +303,14 @@ input:focus {
 .recipes button {
     margin-left: 10px;
 }
+.right input[type="submit"] {
+    border: 2px solid #8e0302;
+}
+.right a {
+    border: 2px solid #8e0302;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 1rem;
+    padding: 5px;
+
+}
