@@ -20,7 +20,7 @@
   <ul class="recipes">
     {% for recipe in recipes %}
     <li>
-      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" />
+        <a href="/drinks/{{recipe[1]}}"><img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" /></a>
       {% if username != None %} {% if recipe[0] in my_recipes %}
       <p><a href="/drinks/{{recipe[1]}}">{{recipe[0]}}</a><a href="/delete_recipe/{{recipe[1]}}"><button>Delete</button></a></p>
       <p>

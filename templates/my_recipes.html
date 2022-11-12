@@ -4,7 +4,9 @@
   <ul class="recipes">
     {% for recipe in recipes %}
     <li>
-      <img src="{{recipe[2]}}" alt="image of {{recipe[1]}}" />
+      <a href="/edit_recipe/{{recipe[1]}}"
+        ><img src="{{recipe[2]}}" alt="image of {{recipe[1]}}"
+      /></a>
       <p>
         <label id="rating-display">
           {% for i in range(0, recipe[3]) %}

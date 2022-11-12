@@ -314,3 +314,7 @@ input:focus {
     padding: 5px;
 
 }
+button:hover, input[type='submit']:hover {
+    background-color: #8e0302;
+    color: #e2d2b5;
+}

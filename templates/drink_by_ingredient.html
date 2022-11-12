@@ -4,10 +4,11 @@
   <ul class="recipes">
     {% for drink in drinks %}
     <li>
-      <img
-        src="{{drink['strDrinkThumb']}}/preview"
-        alt="image of {{drink['strDrink']}}"
-      />
+      <a href="/drinks/{{drink['idDrink']}}"
+        ><img
+          src="{{drink['strDrinkThumb']}}/preview"
+          alt="image of {{drink['strDrink']}}"
+      /></a>
       <p><a href="/drinks/{{drink['idDrink']}}">{{drink['strDrink']}}</a></p>
     </li>
     {% endfor %}
